@@ -91,6 +91,7 @@ public class Practica2 {
             System.out.println("8. Salir\n");
             System.out.println("**-----------------------------------**\n");
 
+            System.out.println("Ingresa una Opcion:");
             checkDeseo = entrada.nextInt();
 
             switch (checkDeseo){
@@ -107,13 +108,13 @@ public class Practica2 {
                     resgistrarPelicula();
                     break;
                 case 5:
-                    System.out.println("ingresar clientes nuevos");
+                    registrarCliente();
                     break;
                 case 6:
-                    System.out.println("Mostrar Clientes");
+                    mostrarCliente();
                     break;
                 case 7:
-                    System.out.println("Mostrando reportes");
+                    mostrarReportes();
                     break;
                 case 8:
                     System.out.println("Adios");
@@ -122,7 +123,10 @@ public class Practica2 {
 
         } while (checkDeseo != 8);
     }
-    //Opcion 1
+
+    /**
+     * OPCION 1 DEL MENU
+     */
     public void prestamoPelis(){
         int option;
         int checkId;
@@ -150,13 +154,18 @@ public class Practica2 {
 
         } while (option !=0);
     }
-    //Opcion 2
+    /**
+     * OPCION 2 DEL MENU
+     */
     public void devolucionPelis(){
 
     }
 
-    //Opcion 3 Complementar
+    /**
+     * OPCION 3 DEL MENU
+     */
     public void mostrarPeliculas(){
+        //AGREGAR OPCION PARA MOSTRAR EN ORDEN ALFABETICO (ASCENDENTE Y DESCENDENTE)
         int option;
         do {
             System.out.println("Las peliculas que se encuentran disponibles son: ");
@@ -174,8 +183,54 @@ public class Practica2 {
         } while (option != 1);
     }
 
-    //Opcion 4
+    /**
+     * OPCION 4 DEL MENU
+     */
     public void resgistrarPelicula(){
+
+    }
+
+    /**
+     * OPCION 5 DEL MENU
+     */
+
+    public void registrarCliente(){
+
+    }
+
+    /**
+     * OPCION 6 DEL MENU
+     */
+
+    public void mostrarCliente(){
+        //AGREGAR OPCION PARA MOSTRAR EN ORDEN ALFABETICO (ASCENDENTE Y DESCENDENTE)
+        int option;
+        do {
+            System.out.println("\n**-------------CLIENTES REGISTRADOS--------**\n");
+            for (int i = 0; i < clientesLenght ; i++) {
+                if (prestamoCliente[i]){
+                    System.out.println("\n" + idCliente[i] + ".----" + nombreCliente[i] + "----" + telefonoCliente[i] + "----" +
+                            "No Apto para Alquiler");
+                } else {
+                    System.out.println("\n" + idCliente[i] + ".----" + nombreCliente[i] + "----" + telefonoCliente[i] + "----" +
+                            "Apto para Alquiler");
+                }
+            }
+
+            System.out.println("\n---OPCIONES---");
+            System.out.println("1. Regresar");
+            System.out.println("\n**-----------------------------------------**\n");
+            System.out.println("Ingresa una Opcion:");
+            option = entrada.nextInt();
+        } while (option != 1);
+
+    }
+
+    /**
+     * OPCION 7 DEL MENU
+     */
+
+    public void mostrarReportes(){
 
     }
 
