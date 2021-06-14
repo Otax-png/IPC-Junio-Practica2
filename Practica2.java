@@ -34,9 +34,7 @@ public class Practica2 {
      * Declarando arreglos para los datos de PRESTAMOS(Lo se, seria mas facil usar objetos)
      */
     int[] idPrestaPelicula = new int[prestamoLength];
-    String[] nombrePrestaPelicula = new String[prestamoLength];
     int [] idClientePrestaPelicula = new int[prestamoLength];
-    String [] nombreClientePrestaPelicula = new String[prestamoLength];
     int[] cantDiasPrestaPelicula = new int[prestamoLength];
 
     public Practica2(){
@@ -74,11 +72,7 @@ public class Practica2 {
         /*
         OBTENIENDO DATOS INICIALES DE PRESTAMOS
          */
-        idPrestaPelicula[0] = 8;
-        nombrePrestaPelicula[0] = "Avatar";
-        idClientePrestaPelicula[0] = 1;
-        nombreClientePrestaPelicula[0] = "Osvaldo";
-        cantDiasPrestaPelicula[0] = 5;
+        idPrestaPelicula[0] = 9; idClientePrestaPelicula[0] = 1; cantDiasPrestaPelicula[0] = 5;
 
         menu();
     }
@@ -90,13 +84,13 @@ public class Practica2 {
         do{
             System.out.println("\n**-------------MENU PRINCIPAL--------**");
             System.out.println("1. Prestamo de Peliculas");
-            System.out.println("2. Devolucion de Peliculas");
-            System.out.println("3. Mostrar Peliculas Disponibles");
-            System.out.println("4. Ingreso de Peliuclas");
-            System.out.println("5. Ingresar Clientes Nuevos");
-            System.out.println("6. Mostrar Clientes");
-            System.out.println("7. Ver Reportes");
-            System.out.println("8. Salir\n");
+            System.out.println("\n2. Devolucion de Peliculas");
+            System.out.println("\n3. Mostrar Peliculas Disponibles");
+            System.out.println("\n4. Ingreso de Peliuclas");
+            System.out.println("\n5. Ingresar Clientes Nuevos");
+            System.out.println("\n6. Mostrar Clientes");
+            System.out.println("\n7. Ver Reportes");
+            System.out.println("\n8. Salir");
             System.out.println("**-----------------------------------**\n");
 
             System.out.println("Ingresa una Opcion:");
@@ -139,8 +133,7 @@ public class Practica2 {
         int optionMenu;
         int checkIdCliente;
         int checkIdPelicula;
-        boolean proceso1Transaccion = false;
-        boolean proceso2Transaccion = false;
+        boolean procesoTransaccion = false;
 
         do {
             System.out.println("\n ¿A QUIEN LE ALQUILARÁS?(Escribe su ID)");
@@ -155,18 +148,19 @@ public class Practica2 {
             System.out.println("-----Ingresa un ID-----");
             checkIdCliente = entrada.nextInt();
 
-            //do {
+            do {
                 //VERIFICANDO DISPONIBILIDAD DE PRESTAMO
                 for (int i = 0 ; i < clientesLenght; i++) {
                     if (checkIdCliente == idCliente[i]) {
                         if (!prestamoCliente[i]) {
                             System.out.println("Prestamo exitoso");
                             prestamoCliente[i] = true;
-                            proceso1Transaccion = true;
+                            procesoTransaccion = true;
+
                             //break;
                         } else {
+                            procesoTransaccion = false;
                             System.out.println("NO APTO PARA ALQUILER");
-                            proceso1Transaccion = false;
                         }
                     }
                 }
@@ -192,49 +186,116 @@ public class Practica2 {
                         if (disponibilidadPelicula[i]){
                             disponibilidadPelicula[i] = false;
                             System.out.println("\n Transaccion Exitosa");
+                            procesoTransaccion = false;
                             break;
                             //proceso2Transaccion = true;
                         }else {
                             System.out.println("ERROR: No se puede Alquilar esta pelicula \n" +
                                     "Ingresa Id de Pelicula Nuevamente");
+                            procesoTransaccion = true;
                         }
                     }
                 }
-            //} while (proceso2Transaccion !=true);
-
+            } while (procesoTransaccion != false);
 
             System.out.println("Quieres Realizar otra transaccion? (1 = SI /0 = NO)");
             optionMenu = entrada.nextInt();
         } while (optionMenu != 0);
     }
+
+
     /**
      * OPCION 2 DEL MENU
      */
     public void devolucionPelis(){
+        int vinyeta = 1;
+        int optionMenu;
+        int checkIdOption;
+
+        do {
+        /*
+        IMPRIMIENDO DATOS DE CLIENTES QUE PRESTARON
+         */
+            for (int i = 0; i < prestamoLength; i++) {
+                for (int j = 0; j < clientesLenght; j++) {
+                    if (idClientePrestaPelicula[i] == idCliente[j]) {
+                        for (int k = 0; k < pelisLength; k++) {
+                            if (idPrestaPelicula[i] == idPelicula[k]) {
+                                System.out.println(vinyeta + ". El cliente: " + nombreCliente[j] + " Debe: " + nombrePelicula[k] + "\n");
+                                vinyeta++;
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+
+            System.out.println("\n----OPCIONES---- " +
+                    "1. Regresar 2. Registrar Devolucion");
+            optionMenu = entrada.nextInt();
+
+            if (optionMenu == 2){
+                System.out.println("\nESCRIBE EL ID DE LA PERSONA QUE HARÁ LA DEVOLUCION");
+                checkIdOption = entrada.nextInt();
+                for (int i = 0; i < prestamoLength; i++) {
+                    if(checkIdOption == idClientePrestaPelicula[i]) {
+                        for (int j = 0; j < clientesLenght; j++) {
+                            if (idClientePrestaPelicula[i] == idCliente[j]) {
+                                for (int k = 0; k < pelisLength; k++) {
+                                    if (idPrestaPelicula[i] == idPelicula[k]) {
+                                        prestamoCliente[j] = false;
+                                        disponibilidadPelicula[k] = true;
+
+                                        prestamoLength = prestamoLength - 1;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                System.out.println("Escribe un ID Valido");
+            } else {
+                System.out.println("");
+            }
+
+        } while (optionMenu != 1);
 
     }
 
     /**
      * OPCION 3 DEL MENU
-     */
+     *///
     public void mostrarPeliculas(){
-        /*
-            AGREGAR OPCION PARA MOSTRAR EN ORDEN ALFABETICO (ASCENDENTE Y DESCENDENTE)
-         */
         int option;
         do {
             System.out.println("Las peliculas que se encuentran disponibles son: ");
             for (int i = 0; i < pelisLength ; i++) {
                 if (disponibilidadPelicula[i]){
                     System.out.println("\n" + idPelicula[i] + "----" + nombrePelicula[i] + "----" + anyoPelicula[i] + "----" +
-                            categoriaPelicula[i] + "----" + "Disponible en Bodega");
+                            categoriaPelicula[i] + "----" + "DISPONIBLE en Bodega");
                 } else {
                     System.out.println("\n" + idPelicula[i] + "----" + nombrePelicula[i] + "----" + anyoPelicula[i] + "----" +
-                            categoriaPelicula[i] + "----" + "No Disponible en Bodega");
+                            categoriaPelicula[i] + "----" + "NO DISPONIBLE en Bodega");
                 }
             }
-            System.out.println("1. Regresar -- 2. Ordenar Id Ascendente -- 3. Ordenar Id Descendente");
+            System.out.println("\n1. Regresar -- 2. Ordenar Id Ascendente -- 3. Ordenar Id Descendente");
             option = entrada.nextInt();
+
+            switch (option){
+                case 1:
+                    System.out.println("");
+                    break;
+                case 2:
+                    ordenarAscendente();
+                    break;
+                case 3:
+                    ordenarDescendente();
+                    break;
+                default:
+                    System.out.println("");
+                    break;
+            }
         } while (option != 1);
     }
 
@@ -242,7 +303,6 @@ public class Practica2 {
      * OPCION 4 DEL MENU
      */
     public void resgistrarPelicula(){
-
     }
 
     /**
@@ -250,7 +310,7 @@ public class Practica2 {
      */
 
     public void registrarCliente(){
-
+        System.out.println("--RREGISTRAR CLIENTE");
     }
 
     /**
@@ -291,5 +351,73 @@ public class Practica2 {
 
     }
 
+    public void ordenarAscendente(){
+        int auxID;
+        String auxNomber;
+        int auxAnyo;
+        String auxCategoria;
+        boolean auxDisponibilidad;
 
+        for (int i = 0; i < pelisLength - 1; i++) {
+            for (int j = 0; j < pelisLength - 1; j++) {
+                if (nombrePelicula[j].compareTo(nombrePelicula[j+1]) > 0){
+
+                    auxNomber=nombrePelicula[j];
+                    nombrePelicula[j] = nombrePelicula[j+1];
+                    nombrePelicula[j+1] = auxNomber;
+
+                    auxID = idPelicula[j];
+                    idPelicula[j] = idPelicula[j+1];
+                    idPelicula[j+1] = auxID;
+
+                    auxAnyo = anyoPelicula[j];
+                    anyoPelicula[j] = anyoPelicula[j+1];
+                    anyoPelicula[j+1] = auxAnyo;
+
+                    auxCategoria = categoriaPelicula[j];
+                    categoriaPelicula[j] = categoriaPelicula[j+1];
+                    categoriaPelicula[j+1] = auxCategoria;
+
+                    auxDisponibilidad = disponibilidadPelicula[j];
+                    disponibilidadPelicula[j] = disponibilidadPelicula[j+1];
+                    disponibilidadPelicula[j+1] = auxDisponibilidad;
+                }
+            }
+        }
+    }
+
+    public void ordenarDescendente(){
+        int auxID;
+        String auxNomber;
+        int auxAnyo;
+        String auxCategoria;
+        boolean auxDisponibilidad;
+
+        for (int i = 0; i < pelisLength - 1; i++) {
+            for (int j = 0; j < pelisLength - 1; j++) {
+                if (nombrePelicula[j].compareTo(nombrePelicula[j+1]) < 0){
+
+                    auxNomber=nombrePelicula[j];
+                    nombrePelicula[j] = nombrePelicula[j+1];
+                    nombrePelicula[j+1] = auxNomber;
+
+                    auxID = idPelicula[j];
+                    idPelicula[j] = idPelicula[j+1];
+                    idPelicula[j+1] = auxID;
+
+                    auxAnyo = anyoPelicula[j];
+                    anyoPelicula[j] = anyoPelicula[j+1];
+                    anyoPelicula[j+1] = auxAnyo;
+
+                    auxCategoria = categoriaPelicula[j];
+                    categoriaPelicula[j] = categoriaPelicula[j+1];
+                    categoriaPelicula[j+1] = auxCategoria;
+
+                    auxDisponibilidad = disponibilidadPelicula[j];
+                    disponibilidadPelicula[j] = disponibilidadPelicula[j+1];
+                    disponibilidadPelicula[j+1] = auxDisponibilidad;
+                }
+            }
+        }
+    }
 }
