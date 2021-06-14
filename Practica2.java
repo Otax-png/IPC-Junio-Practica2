@@ -11,6 +11,7 @@ public class Practica2 {
 
     int clientesLenght = 3;
     int pelisLength = 9;
+    int prestamoLength = 1;
 
     /**
      * Declarando arreglos para los datos de clientes (Lo se, quiza sea mas facil usar objetos)
@@ -32,13 +33,11 @@ public class Practica2 {
     /**
      * Declarando arreglos para los datos de PRESTAMOS(Lo se, seria mas facil usar objetos)
      */
-    int[] idPrestaPelicula = new int[pelisLength];
-    String[] nombrePrestaPelicula = new String[pelisLength];
-    int[] anyoPrestaPelicula = new int[pelisLength];
-    String[] categoriaPrestaPelicula = new String[pelisLength];
-    boolean[] disponibilidadPrestaPelicula = new boolean[pelisLength];
-
-
+    int[] idPrestaPelicula = new int[prestamoLength];
+    String[] nombrePrestaPelicula = new String[prestamoLength];
+    int [] idClientePrestaPelicula = new int[prestamoLength];
+    String [] nombreClientePrestaPelicula = new String[prestamoLength];
+    int[] cantDiasPrestaPelicula = new int[prestamoLength];
 
     public Practica2(){
         /*
@@ -47,7 +46,7 @@ public class Practica2 {
         nombreCliente[0] = "Osvaldo"; nombreCliente[1] = "Manuel"; nombreCliente[2] = "Miguel";
         idCliente[0] = 1; idCliente[1] = 2; idCliente[2] = 3;
         telefonoCliente[0] = 12345678; telefonoCliente[1] = 87654321; telefonoCliente[2] = 76549012;
-        prestamoCliente[0] = false; prestamoCliente[1] = false; prestamoCliente[2] = false;
+        prestamoCliente[0] = true; prestamoCliente[1] = false; prestamoCliente[2] = false;
 
         /*
         OBTENIENDO DATOS INICIALES DE PELICULAS
@@ -70,7 +69,16 @@ public class Practica2 {
 
         disponibilidadPelicula[0] = true; disponibilidadPelicula[1] = true; disponibilidadPelicula[2] = true;
         disponibilidadPelicula[3] = true; disponibilidadPelicula[4] = true; disponibilidadPelicula[5] = true;
-        disponibilidadPelicula[6] = true; disponibilidadPelicula[7] = true; disponibilidadPelicula[8] = true;
+        disponibilidadPelicula[6] = true; disponibilidadPelicula[7] = true; disponibilidadPelicula[8] = false;
+
+        /*
+        OBTENIENDO DATOS INICIALES DE PRESTAMOS
+         */
+        idPrestaPelicula[0] = 8;
+        nombrePrestaPelicula[0] = "Avatar";
+        idClientePrestaPelicula[0] = 1;
+        nombreClientePrestaPelicula[0] = "Osvaldo";
+        cantDiasPrestaPelicula[0] = 5;
 
         menu();
     }
@@ -128,31 +136,76 @@ public class Practica2 {
      * OPCION 1 DEL MENU
      */
     public void prestamoPelis(){
-        int option;
-        int checkId;
+        int optionMenu;
+        int checkIdCliente;
+        int checkIdPelicula;
+        boolean proceso1Transaccion = false;
+        boolean proceso2Transaccion = false;
 
         do {
+            System.out.println("\n ¿A QUIEN LE ALQUILARÁS?(Escribe su ID)");
+            for (int i = 0; i < clientesLenght; i++) {
+                //IMPRIMIENDO NOMBRES DE CLIENTES
+                if (prestamoCliente[i] == false) {
+                    System.out.println("\n" + idCliente[i] + "----" + nombreCliente[i] + "----" + " Apto para Alquiler");
+                } else {
+                    System.out.println("\n" + idCliente[i] + "----" + nombreCliente[i] + "----" + " No Apto para Alquiler");
+                }
+            }
+            System.out.println("-----Ingresa un ID-----");
+            checkIdCliente = entrada.nextInt();
+
+            //do {
+                //VERIFICANDO DISPONIBILIDAD DE PRESTAMO
+                for (int i = 0 ; i < clientesLenght; i++) {
+                    if (checkIdCliente == idCliente[i]) {
+                        if (!prestamoCliente[i]) {
+                            System.out.println("Prestamo exitoso");
+                            prestamoCliente[i] = true;
+                            proceso1Transaccion = true;
+                            //break;
+                        } else {
+                            System.out.println("NO APTO PARA ALQUILER");
+                            proceso1Transaccion = false;
+                        }
+                    }
+                }
+            //} while (proceso1Transaccion != true);
+
             System.out.println("\n Escribe el numero de la pelicula que deseas Prestar");
+
             //IMPRIMIENDO LISTA DE PELICULAS DISPONIBLES
             for (int i = 0; i < pelisLength ; i++) {
                 if (disponibilidadPelicula[i] == false){
-                    System.out.println("\n" + idPelicula[i] + "No Disponible");
+                    System.out.println("\n" + idPelicula[i] + ". No Disponible");
                 } else {
-                    System.out.println("\n" + idPelicula[i] + nombrePelicula[i]);
+                    System.out.println("\n" + idPelicula[i] + ". " + nombrePelicula[i]);
                 }
             }
-            option = entrada.nextInt();
-            System.out.println("\n A quien se lo prestarás? (Escribe su ID)");
-            checkId = entrada.nextInt();
-            for (int i = 0; i < clientesLenght; i++) {
-                if (checkId == idCliente[i]){
-                    prestamoCliente[i] = true;
-                } else {
-                    System.out.println("");
-                }
-            }
+            System.out.println("Ingresa un Id de Pelicula");
 
-        } while (option !=0);
+            //do {
+                checkIdPelicula = entrada.nextInt();
+
+                for (int i = 0; i < pelisLength; i++) {
+                    if (checkIdPelicula == idPelicula[i]) {
+                        if (disponibilidadPelicula[i]){
+                            disponibilidadPelicula[i] = false;
+                            System.out.println("\n Transaccion Exitosa");
+                            break;
+                            //proceso2Transaccion = true;
+                        }else {
+                            System.out.println("ERROR: No se puede Alquilar esta pelicula \n" +
+                                    "Ingresa Id de Pelicula Nuevamente");
+                        }
+                    }
+                }
+            //} while (proceso2Transaccion !=true);
+
+
+            System.out.println("Quieres Realizar otra transaccion? (1 = SI /0 = NO)");
+            optionMenu = entrada.nextInt();
+        } while (optionMenu != 0);
     }
     /**
      * OPCION 2 DEL MENU
@@ -165,7 +218,9 @@ public class Practica2 {
      * OPCION 3 DEL MENU
      */
     public void mostrarPeliculas(){
-        //AGREGAR OPCION PARA MOSTRAR EN ORDEN ALFABETICO (ASCENDENTE Y DESCENDENTE)
+        /*
+            AGREGAR OPCION PARA MOSTRAR EN ORDEN ALFABETICO (ASCENDENTE Y DESCENDENTE)
+         */
         int option;
         do {
             System.out.println("Las peliculas que se encuentran disponibles son: ");
@@ -178,7 +233,7 @@ public class Practica2 {
                             categoriaPelicula[i] + "----" + "No Disponible en Bodega");
                 }
             }
-            System.out.println("1. Regresar");
+            System.out.println("1. Regresar -- 2. Ordenar Id Ascendente -- 3. Ordenar Id Descendente");
             option = entrada.nextInt();
         } while (option != 1);
     }
@@ -203,7 +258,9 @@ public class Practica2 {
      */
 
     public void mostrarCliente(){
-        //AGREGAR OPCION PARA MOSTRAR EN ORDEN ALFABETICO (ASCENDENTE Y DESCENDENTE)
+        /*
+            AGREGAR OPCION PARA MOSTRAR EN ORDEN ALFABETICO (ASCENDENTE Y DESCENDENTE)
+         */
         int option;
         do {
             System.out.println("\n**-------------CLIENTES REGISTRADOS--------**\n");
