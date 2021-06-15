@@ -16,19 +16,19 @@ public class Practica2 {
     /**
      * Declarando arreglos para los datos de clientes (Lo se, quiza sea mas facil usar objetos)
      */
-    String[] nombreCliente = new String[clientesLenght];
-    int[] idCliente = new int[clientesLenght];
-    double[] telefonoCliente = new double[clientesLenght];
-    boolean[] prestamoCliente = new boolean[clientesLenght];
+    String[] nombreCliente = new String[100];
+    int[] idCliente = new int[100];
+    int[] telefonoCliente = new int[100];
+    boolean[] prestamoCliente = new boolean[100];
 
     /**
      * Declarando arreglos para los datos de PELICULAS(Lo se, seria mas facil usar objetos)
      */
-    int[] idPelicula = new int[pelisLength];
-    String[] nombrePelicula = new String[pelisLength];
-    int[] anyoPelicula = new int[pelisLength];
-    String[] categoriaPelicula = new String[pelisLength];
-    boolean[] disponibilidadPelicula = new boolean[pelisLength];
+    int[] idPelicula = new int[100];
+    String[] nombrePelicula = new String[100];
+    int[] anyoPelicula = new int[100];
+    String[] categoriaPelicula = new String[100];
+    boolean[] disponibilidadPelicula = new boolean[100];
 
     /**
      * Declarando arreglos para los datos de PRESTAMOS(Lo se, seria mas facil usar objetos)
@@ -95,6 +95,7 @@ public class Practica2 {
 
             System.out.println("Ingresa una Opcion:");
             checkDeseo = entrada.nextInt();
+            entrada.nextLine();
 
             switch (checkDeseo){
                 case 1:
@@ -107,10 +108,10 @@ public class Practica2 {
                     mostrarPeliculas();
                     break;
                 case 4:
-                    resgistrarPelicula();
+                    ingresarPeliculas();
                     break;
                 case 5:
-                    registrarCliente();
+                    ingresarClientes();
                     break;
                 case 6:
                     mostrarCliente();
@@ -147,6 +148,7 @@ public class Practica2 {
             }
             System.out.println("-----Ingresa un ID-----");
             checkIdCliente = entrada.nextInt();
+            entrada.nextLine();
 
             do {
                 //VERIFICANDO DISPONIBILIDAD DE PRESTAMO
@@ -164,21 +166,21 @@ public class Practica2 {
                         }
                     }
                 }
-            //} while (proceso1Transaccion != true);
+                //} while (proceso1Transaccion != true);
 
-            System.out.println("\n Escribe el numero de la pelicula que deseas Prestar");
+                System.out.println("\n Escribe el numero de la pelicula que deseas Prestar");
 
-            //IMPRIMIENDO LISTA DE PELICULAS DISPONIBLES
-            for (int i = 0; i < pelisLength ; i++) {
-                if (disponibilidadPelicula[i] == false){
-                    System.out.println("\n" + idPelicula[i] + ". No Disponible");
-                } else {
-                    System.out.println("\n" + idPelicula[i] + ". " + nombrePelicula[i]);
+                //IMPRIMIENDO LISTA DE PELICULAS DISPONIBLES
+                for (int i = 0; i < pelisLength ; i++) {
+                    if (disponibilidadPelicula[i] == false){
+                        System.out.println("\n" + idPelicula[i] + ". No Disponible");
+                    } else {
+                        System.out.println("\n" + idPelicula[i] + ". " + nombrePelicula[i]);
+                    }
                 }
-            }
-            System.out.println("Ingresa un Id de Pelicula");
+                System.out.println("Ingresa un Id de Pelicula");
 
-            //do {
+                //do {
                 checkIdPelicula = entrada.nextInt();
 
                 for (int i = 0; i < pelisLength; i++) {
@@ -302,15 +304,93 @@ public class Practica2 {
     /**
      * OPCION 4 DEL MENU
      */
-    public void resgistrarPelicula(){
+    public void ingresarPeliculas(){
+        String name;
+        int id;
+        int year;
+        String category;
+
+        boolean hallado = false;
+        //pelisLength++;
+
+        System.out.println("Ingresa el nombre de la película");
+        name =  entrada.nextLine();
+
+        System.out.println("Ingresa el id de la película");
+        id = entrada.nextInt();
+        entrada.nextLine();
+
+        System.out.println("Ingresa el año de la película");
+        year = entrada.nextInt();
+        entrada.nextLine();
+
+        System.out.println("Ingresa la categoría de la película");
+        category = entrada.nextLine();
+        for (int i = 0; i < pelisLength; i++) {
+            if(idPelicula[i] == id){
+                hallado = true;
+                break;
+            }
+        }
+        if(!hallado){
+            nombrePelicula[pelisLength] = name;
+            idPelicula[pelisLength] = id;
+            anyoPelicula[pelisLength] = year;
+            categoriaPelicula[pelisLength] = category;
+            disponibilidadPelicula[pelisLength] = true;
+            System.out.println("Se guardó la peli ");
+            pelisLength++;
+        }
+        else{
+            //pelisLength--;
+            System.out.println("No se pudo guardar la peli, verifique que los datos esten bien escritos y el id no coincida con uno anteriormente creado");
+        }
+
+
     }
 
     /**
      * OPCION 5 DEL MENU
      */
 
-    public void registrarCliente(){
-        System.out.println("--RREGISTRAR CLIENTE");
+    public void ingresarClientes(){
+        String name;
+        int id;
+        int phone;
+
+        boolean hallado = false;
+        //clientesLenght++;
+
+        System.out.println("Ingresa el nombre del cliente");
+        name =  entrada.nextLine();
+
+        System.out.println("Ingresa el id del cliente");
+        id = entrada.nextInt();
+        entrada.nextLine();
+
+        System.out.println("Ingresa el telefono del cliente");
+        phone = entrada.nextInt();
+        entrada.nextLine();
+
+        for (int i = 0; i < clientesLenght; i++) {
+            if(idCliente[i] == id){
+                hallado = true;
+                break;
+            }
+        }
+        if(!hallado){
+            nombreCliente[clientesLenght] = name;
+            idCliente[clientesLenght] = id;
+            telefonoCliente[clientesLenght] = phone;
+            prestamoCliente[clientesLenght] = false;
+            System.out.println("Se guardó el cliente ");
+            clientesLenght++;
+        }
+        else{
+            //clientesLenght--;
+            System.out.println("No se pudo guardar el cliente, verifique que los datos esten bien escritos y el id no coincida con uno anteriormente creado");
+        }
+
     }
 
     /**
